@@ -12,14 +12,14 @@ struct example : public tbl::table
 	{
 		int id = tbl::table::create();
 		((float*)stream(STR_LIFE)->begin())[id] = _life;
-        ((int*)stream(STR_XPOS)->begin())[id] = _posx;
+		((int*)stream(STR_XPOS)->begin())[id] = _posx;
 		return id;
 	}
 
-    static void update_range(const tbl::table *_table, int _start, int _end)
-    {		
-        float* lifeptr = (float*)_table->stream(STR_LIFE)->begin() + _start;
-        int* xposptr = (int*)_table->stream(STR_XPOS)->begin() + _start;
+	static void update_range(const tbl::table *_table, int _start, int _end)
+	{		
+		float* lifeptr = (float*)_table->stream(STR_LIFE)->begin() + _start;
+		int* xposptr = (int*)_table->stream(STR_XPOS)->begin() + _start;
 
 		for(int i = _start; i < _end; ++i)
 		{
@@ -47,6 +47,6 @@ struct example : public tbl::table
 
 int main()
 {
-    return example::test();
+	return example::test();
 }
 
