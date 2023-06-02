@@ -37,8 +37,8 @@ namespace tbl
 		void destroy(int _id);
 		const tbl::vector *stream(int _index) const { return streams + _index; }
 
-		typedef void (*update)(const table *_table, int _start, int _end);
-		void parallel(update _update, int _batch) const;
+		typedef void (*update)(const table *_table, int _start, int _end, void *_data);
+		void parallel(update _update, int _batch, void *_data = 0, bool _parallel = true) const;
 
 	private:
 		table(const table &); 

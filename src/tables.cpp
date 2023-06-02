@@ -6,12 +6,6 @@
 #include <algorithm>
 #include <execution>
 
-#if defined(NDEBUG)
-#define EXECUTION std::execution::par
-#else
-#define EXECUTION std::execution::seq
-#endif
-
 const int BUFFER_PADDING = 32; 
 
 namespace tbl
@@ -80,7 +74,7 @@ namespace tbl
 		((int*)free.begin())[id] = _id;
 	}
 		
-	void table::parallel(update _update, int _batch) const
+	void table::parallel(update _update, int _batch, void *_data, bool _parallel) const
 	{
 		int size = streams[0].size();
 		int count = size / _batch;
@@ -88,12 +82,17 @@ namespace tbl
 
 		std::vector<int> it(jobs);
 		std::iota(std::begin(it), std::end(it), 0);
-		std::for_each(EXECUTION, std::begin(it), std::end(it), [&](int i)
+		auto flambda = [&](int i)
 		{
 			int start = i * _batch;
 			int end = (start + _batch < size) ? start + _batch : size;
-			(*_update)(this, start, end);
-		});
+			(*_update)(this, start, end, _data);
+		};
+
+		if(_parallel)
+			std::for_each(std::execution::par, std::begin(it), std::end(it), flambda);
+		else
+			std::for_each(std::execution::seq, std::begin(it), std::end(it), flambda);
 	}		
 }
 

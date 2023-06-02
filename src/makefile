@@ -1,4 +1,5 @@
-CFLAGS = -DNDEBUG -msse3 -ffast-math -g
+#CFLAGS = -msse3 -ffast-math -g
+CFLAGS = -DNDEBUG -msse3 -ffast-math -g -O2
 
 all: tables.elf
 

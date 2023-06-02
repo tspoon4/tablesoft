@@ -16,7 +16,7 @@ struct example : public tbl::table
 		return id;
 	}
 
-	static void update_range(const tbl::table *_table, int _start, int _end)
+	static void update_range(const tbl::table *_table, int _start, int _end, void *_data)
 	{		
 		float* lifeptr = (float*)_table->stream(STR_LIFE)->begin() + _start;
 		int* xposptr = (int*)_table->stream(STR_XPOS)->begin() + _start;
